@@ -24,8 +24,18 @@
         "precio": 3,
         "stock": 4,
         "foto": "y",
-        "id": 2,
+        "id": 1,
         "timestamp": 1635723518840
+      },
+      {
+        "nombre": "casa",
+        "descripcion": "dddd",
+        "codigo": 2,
+        "precio": 3,
+        "stock": 4,
+        "foto": "y",
+        "id": 2,
+        "timestamp": 1635776375301
       }
     ],
     "id": 2,

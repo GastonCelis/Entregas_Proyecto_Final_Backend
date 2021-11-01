@@ -11,7 +11,19 @@ const savedProduct = async (product) =>{
     return productSaved
 }
 
+const updateProduct = async (id, product) => {
+    const productUpdated = await ContenedorProducts.update(id, product)
+    return productUpdated
+}
+
+const deleteProductById = async (id) =>{
+    const productDeleted = await ContenedorProducts.deleteById(id)
+    return productDeleted
+}
+
 module.exports = {
     getAllProducts,
-    savedProduct
+    savedProduct,
+    updateProduct,
+    deleteProductById
 }

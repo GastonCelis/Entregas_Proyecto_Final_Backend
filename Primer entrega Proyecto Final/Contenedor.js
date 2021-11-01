@@ -1,54 +1,54 @@
-const fs = require('fs');
+const fs = require('fs')
 
 class Contenedor{
     constructor(file){
-        this.file = file;
-    };
+        this.file = file
+    }
 
     async deleteAll(){
         try {
-            await fs.promises.writeFile(this.file, "");
+            await fs.promises.writeFile(this.file, "")
         }
         catch(error) {
-            console.error("Error:", error);
+            console.error("Error:", error)
         }
-    };
+    }
 
     async deleteById(id){
         try{
-            const contenido = await fs.promises.readFile(this.file, "utf-8");
-            const productos = JSON.parse(contenido);
-            const productoEnId = productos.filter(element => element.id === parseInt(id));
+            const contenido = await fs.promises.readFile(this.file, "utf-8")
+            const productos = JSON.parse(contenido)
+            const productoEnId = productos.filter(element => element.id === parseInt(id))
 
             if (productoEnId == false){
                 return false
             } else {
-                const filtroPorId = productos.filter(element => element.id != parseInt(id));
-                const productosStrings = JSON.stringify(filtroPorId, null, 2);
-                await fs.promises.writeFile(this.file, productosStrings);
+                const filtroPorId = productos.filter(element => element.id != parseInt(id))
+                const productosStrings = JSON.stringify(filtroPorId, null, 2)
+                await fs.promises.writeFile(this.file, productosStrings)
                 return true
             }
         }
         catch(error) {
-            console.error('Error:', error);
+            console.error('Error:', error)
         }
-    };
+    }
 
     async getAll(){
         try{
-            const contenido = await fs.promises.readFile(this.file, "utf-8");
-            const productos = JSON.parse(contenido);
-            return productos;
+            const contenido = await fs.promises.readFile(this.file, "utf-8")
+            const productos = JSON.parse(contenido)
+            return productos
         } 
         catch(error) {
-            console.error('Error:', error);
+            console.error('Error:', error)
         }
-    };
+    }
 
     async getById(id){
         try{
-            const contenido = await fs.promises.readFile(this.file, "utf-8");
-            const productos = JSON.parse(contenido);
+            const contenido = await fs.promises.readFile(this.file, "utf-8")
+            const productos = JSON.parse(contenido)
 
             if (productos.filter(element => element.id === parseInt(id)) == false){
                 return false
@@ -57,40 +57,74 @@ class Contenedor{
             }
         }
         catch (error) {
-            console.error('Error:', error);
-        };
-    };
+            console.error('Error:', error)
+        }
+    }
 
     async save(object) {
         try {
-            let productos = [];
-            const contenido = await fs.promises.readFile(this.file, "utf-8");
+            let productos = []
+            const contenido = await fs.promises.readFile(this.file, "utf-8")
 
             if (contenido === '') {
-                object.id = 1;
-                object.timestamp = Date.now();
-                productos.push(object);
-            } else {
-                const listaDeProducto = JSON.parse(contenido);
-                object.id = listaDeProducto[listaDeProducto.length - 1].id + 1;
+                object.id = 1
                 object.timestamp = Date.now()
-                listaDeProducto.push(object);
-                productos = listaDeProducto;
+                productos.push(object)
+            } else {
+                const listaDeProducto = JSON.parse(contenido)
+                object.id = listaDeProducto[listaDeProducto.length - 1].id + 1
+                object.timestamp = Date.now()
+                listaDeProducto.push(object)
+                productos = listaDeProducto
             }
 
-            const productosStrings = JSON.stringify(productos, null, 2);
-            await fs.promises.writeFile(this.file, productosStrings);
-            return object.id;
+            const productosStrings = JSON.stringify(productos, null, 2)
+            await fs.promises.writeFile(this.file, productosStrings)
+            return object.id
         } 
         catch (error) {
-            console.error('Error:', error);
-        };
-    };
+            console.error('Error:', error)
+        }
+    }
 
     async update(id, producto){
         try{
-            const lista = await this.getAll();
-            const elementoGuardado = lista.find((item) => item.id === parseInt(id));
+            const lista = await this.getAll()
+            const elementoGuardado = lista.find((item) => item.id === parseInt(id))
+            const indiceProductoGuardado = lista.findIndex((item) => item.id === parseInt(id))
+            console.log(elementoGuardado)
+            if(indiceProductoGuardado === -1){
+                return false
+            } else{
+
+                const nuevoProducto = {
+                    "id": elementoGuardado.id,
+                    "timestamp": Date.now(),
+                    "nombre": producto.nombre,
+                    "descripcion": producto.descripcion,
+                    "codigo": producto.codigo,
+                    "precio": producto.precio,
+                    "stock": producto.stock,
+                    "foto": producto.foto
+                }
+                lista.splice(indiceProductoGuardado, 1, nuevoProducto)
+
+                const productosStrings = JSON.stringify(lista, null, 2)
+                await fs.promises.writeFile(this.file, productosStrings)
+
+                return lista
+            }
+        }
+        
+        catch(error){
+            console.error(`¡Error!: ${error}`)
+        }
+    }
+
+    async updateCart(id, producto){
+        try{
+            const lista = await this.getAll()
+            const elementoGuardado = lista.find((item) => item.id === parseInt(id))
             const indiceProductoGuardado = lista.findIndex((item) => item.id === parseInt(id))
             
             if(indiceProductoGuardado === -1){
@@ -113,24 +147,24 @@ class Contenedor{
                     "timestamp": elementoGuardado.timestamp
                     }
                 
-                lista.splice(indiceProductoGuardado, 1, productoActualizado);
+                lista.splice(indiceProductoGuardado, 1, productoActualizado)
 
-                const productosStrings = JSON.stringify(lista, null, 2);
-                await fs.promises.writeFile(this.file, productosStrings);
+                const productosStrings = JSON.stringify(lista, null, 2)
+                await fs.promises.writeFile(this.file, productosStrings)
 
-                return productoActualizado;
+                return productoActualizado
             }
         }
 
         catch(error){
-            console.error(`¡Error!: ${error}`);
+            console.error(`¡Error!: ${error}`)
         }
     }
 
-    async replace(id, producto){
+    async replaceInCart(id, producto){
         try{
-            const lista = await this.getAll();
-            const elementoGuardado = lista.find((item) => item.id === parseInt(id));
+            const lista = await this.getAll()
+            const elementoGuardado = lista.find((item) => item.id === parseInt(id))
             const indiceProductoGuardado = lista.findIndex((item) => item.id === parseInt(id))
             
             if(indiceProductoGuardado === -1 || producto == false){
@@ -150,19 +184,19 @@ class Contenedor{
                     "timestamp": elementoGuardado.timestamp
                     }
                 
-                lista.splice(indiceProductoGuardado, 1, productoActualizado);
+                lista.splice(indiceProductoGuardado, 1, productoActualizado)
 
-                const productosStrings = JSON.stringify(lista, null, 2);
-                await fs.promises.writeFile(this.file, productosStrings);
+                const productosStrings = JSON.stringify(lista, null, 2)
+                await fs.promises.writeFile(this.file, productosStrings)
 
-                return productoActualizado;
+                return productoActualizado
             }
         }
 
         catch(error){
-            console.error(`¡Error!: ${error}`);
+            console.error(`¡Error!: ${error}`)
         }
     }
-};
+}
 
-module.exports = Contenedor;
+module.exports = Contenedor

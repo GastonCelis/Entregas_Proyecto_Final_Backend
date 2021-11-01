@@ -13,12 +13,13 @@ const deleteCartById = async (idCart) =>{
 
 const deleteProductoinCart = async (cartId, productId) => {
     const getCart = await ContainerCart.getById(cartId)
+    const productInCart = getCart[0].producto.findIndex(product => product.id === parseInt(productId))
 
-    if(getCart === false){
+    if(getCart === false || productInCart === -1){
         return false
     } else {
         const newCart = getCart[0].producto.filter(product => product.id != productId)
-        const cartUpdated = await ContainerCart.replace(cartId, newCart)
+        const cartUpdated = await ContainerCart.replaceInCart(cartId, newCart)
 
         return cartUpdated
     }
@@ -31,7 +32,7 @@ const getCartId = async (idCart) =>{
 }
 
 const addProductInCart = async (idCart, product) => {
-    const addInIdCart = await ContainerCart.update(idCart, product)
+    const addInIdCart = await ContainerCart.updateCart(idCart, product)
     return addInIdCart
 }
 

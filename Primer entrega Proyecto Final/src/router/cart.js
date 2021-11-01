@@ -57,7 +57,7 @@ routerCart.delete("/:id/productos/:id_prod", async (req, res) => {
 
     if (newCart === false) {
         res.send({
-            Mensaje: `No se encontró el ID: ${idCart}`
+            Mensaje: `No se encontró el producto o el carrito correspondiente`
         })
     } else {
         res.send({
