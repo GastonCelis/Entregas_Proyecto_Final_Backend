@@ -136,9 +136,6 @@ class Contenedor{
             if(indiceProductoGuardado === -1 || producto == false){
                 return false
             } else {
-                const objetoEnId = producto
-                
-
                 if(elementoGuardado.producto[0].id === undefined){
                     elementoGuardado.producto[0].id = 1
                     elementoGuardado.producto[0].timestamp = Date.now()
@@ -148,7 +145,7 @@ class Contenedor{
                 }
     
                 const productoActualizado = {
-                    "producto": objetoEnId,
+                    "producto": producto,
                     "id": elementoGuardado.id,
                     "timestamp": elementoGuardado.timestamp
                     }
