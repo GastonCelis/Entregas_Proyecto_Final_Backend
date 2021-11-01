@@ -18,10 +18,16 @@ class Contenedor{
         try{
             const contenido = await fs.promises.readFile(this.file, "utf-8");
             const productos = JSON.parse(contenido);
-            const filtroPorId = productos.filter(element => element.id != parseInt(id))
+            const productoEnId = productos.filter(element => element.id === parseInt(id));
 
-            const productosStrings = JSON.stringify(filtroPorId, null, 2);
-            await fs.promises.writeFile(this.file, productosStrings);
+            if (productoEnId == false){
+                return false
+            } else {
+                const filtroPorId = productos.filter(element => element.id != parseInt(id));
+                const productosStrings = JSON.stringify(filtroPorId, null, 2);
+                await fs.promises.writeFile(this.file, productosStrings);
+                return true
+            }
         }
         catch(error) {
             console.error('Error:', error);
@@ -43,7 +49,12 @@ class Contenedor{
         try{
             const contenido = await fs.promises.readFile(this.file, "utf-8");
             const productos = JSON.parse(contenido);
-            return productos.filter(element => element.id === parseInt(id))
+
+            if (productos.filter(element => element.id === parseInt(id)) == false){
+                return false
+            } else {
+                return productos.filter(element => element.id === parseInt(id))
+            }
         }
         catch (error) {
             console.error('Error:', error);
@@ -57,10 +68,12 @@ class Contenedor{
 
             if (contenido === '') {
                 object.id = 1;
+                object.timestamp = Date.now();
                 productos.push(object);
             } else {
                 const listaDeProducto = JSON.parse(contenido);
                 object.id = listaDeProducto[listaDeProducto.length - 1].id + 1;
+                object.timestamp = Date.now()
                 listaDeProducto.push(object);
                 productos = listaDeProducto;
             }
@@ -77,21 +90,78 @@ class Contenedor{
     async update(id, producto){
         try{
             const lista = await this.getAll();
+            const elementoGuardado = lista.find((item) => item.id === parseInt(id));
             const indiceProductoGuardado = lista.findIndex((item) => item.id === parseInt(id))
-
+            
             if(indiceProductoGuardado === -1){
-                console.error(`El Producto con el id: ${id} no fue encontrado`)
-                return null
+                return false
+            } else {
+                const objetoEnId = elementoGuardado.producto
+                objetoEnId.push(producto)
+
+                if(objetoEnId[0].id === undefined){
+                    objetoEnId[0].id = 1
+                    objetoEnId[0].timestamp = Date.now()
+                } else {
+                    objetoEnId[objetoEnId.length - 1].id = objetoEnId.length
+                    objetoEnId[objetoEnId.length - 1].timestamp = Date.now()
+                }
+    
+                const productoActualizado = {
+                    "producto": objetoEnId,
+                    "id": elementoGuardado.id,
+                    "timestamp": elementoGuardado.timestamp
+                    }
+                
+                lista.splice(indiceProductoGuardado, 1, productoActualizado);
+
+                const productosStrings = JSON.stringify(lista, null, 2);
+                await fs.promises.writeFile(this.file, productosStrings);
+
+                return productoActualizado;
             }
-
-            lista.splice(indiceProductoGuardado, 1, producto);
-
-            const productosStrings = JSON.stringify(lista, null, 2);
-            await fs.promises.writeFile(this.file, productosStrings);
-
-            return console.log(`El Producto con el id ${id} fue actualizado`);
         }
-        
+
+        catch(error){
+            console.error(`¡Error!: ${error}`);
+        }
+    }
+
+    async replace(id, producto){
+        try{
+            const lista = await this.getAll();
+            const elementoGuardado = lista.find((item) => item.id === parseInt(id));
+            const indiceProductoGuardado = lista.findIndex((item) => item.id === parseInt(id))
+            
+            if(indiceProductoGuardado === -1 || producto == false){
+                return false
+            } else {
+                const objetoEnId = producto
+                
+
+                if(elementoGuardado.producto[0].id === undefined){
+                    elementoGuardado.producto[0].id = 1
+                    elementoGuardado.producto[0].timestamp = Date.now()
+                } else {
+                    elementoGuardado.producto[elementoGuardado.producto.length - 1].id = elementoGuardado.producto.length
+                    elementoGuardado.producto[elementoGuardado.producto.length - 1].timestamp = Date.now()
+                }
+    
+                const productoActualizado = {
+                    "producto": objetoEnId,
+                    "id": elementoGuardado.id,
+                    "timestamp": elementoGuardado.timestamp
+                    }
+                
+                lista.splice(indiceProductoGuardado, 1, productoActualizado);
+
+                const productosStrings = JSON.stringify(lista, null, 2);
+                await fs.promises.writeFile(this.file, productosStrings);
+
+                return productoActualizado;
+            }
+        }
+
         catch(error){
             console.error(`¡Error!: ${error}`);
         }
