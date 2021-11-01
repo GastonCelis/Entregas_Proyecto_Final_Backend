@@ -6,7 +6,7 @@ const isAdmin = require("../middlewares/admin")
 
 routerProducts.get("/", async (req, res) =>{
     const products = await getAllProducts()
-    res.send({ Data: products })
+    res.send({Data: products})
 })
 
 routerProducts.post("/", isAdmin, async (req, res) =>{

@@ -11,6 +11,8 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("./public"))
+app.use("/api/productos", express.static("./public/pages/products.html"))
+app.use("/api/carrito", express.static("./public/pages/cart.html"))
 
 app.use("/api/productos", routerProducts)
 app.use("/api/carrito", routerCart)
