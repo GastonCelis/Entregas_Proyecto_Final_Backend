@@ -1,5 +1,5 @@
 const Contenedor = require("../../Contenedor")
-const ContenedorProducts = new Contenedor("./data/productos.json")
+const ContenedorProducts = new Contenedor("data/productos.json")
 
 const getAllProducts = async () =>{
     const listProducts = await ContenedorProducts.getAll()

@@ -1,5 +1,5 @@
 const Contenedor = require("../../Contenedor")
-const ContainerCart = new Contenedor("./data/carrito.json")
+const ContainerCart = new Contenedor("data/carrito.json")
 
 const createCart = async (product) =>{
     const newProductSaved = await ContainerCart.save(product)
