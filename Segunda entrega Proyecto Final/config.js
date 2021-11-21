@@ -1,6 +1,6 @@
 const config = {
     mongodb: {
-        host: "mongodb://localhost:27017/ecommerce",
+        host: "mongodb://127.0.0.1/ecommerce",
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -22,7 +22,11 @@ const config = {
     },
     
     file: {
-        path: 'data'
+        path: './data'
+    },
+
+    memory: {
+        array: []
     }
 }
 

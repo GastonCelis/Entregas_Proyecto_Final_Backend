@@ -1,5 +1,17 @@
 const express = require("express")
+const isAdmin = require("../middlewares/admin")
+
+const { CartDao } = require("../daos/index")
+
 const routerCart = express.Router()
+
+const cartDao = new CartDao()
+
+routerCart.get("/:id/productos", async (req, res) =>{
+    const idCart = req.params.id
+    const cartWithId = await cartDao.readById(idCart)
+    res.send({ cartWithId })
+})
 
 routerCart.post("/", async (req, res) =>{
     const newProductInCart = req.body
@@ -64,20 +76,5 @@ routerCart.delete("/:id/productos/:id_prod", async (req, res) => {
     }
 
 })
-
-routerCart.get("/:id/productos", async (req, res) =>{
-    const idCart = req.params.id
-    const cartWithId = await getCartId(idCart)
-    if (cartWithId === false){
-        res.send({
-            Mensaje: `El carrito con ID: ${idCart}, no se encontró`
-        })
-    } else {
-        res.send({Data: cartWithId})
-    }
-})
-
-
-
 
 module.exports = routerCart

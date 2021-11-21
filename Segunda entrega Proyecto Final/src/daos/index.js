@@ -1,11 +1,11 @@
-/*const ProductDaoFile = require("./products/ProductDaoFile)
+const ProductDaoFile = require("./products/ProductDaoFile")
 const ProductDaoFirestore = require("./products/ProductDaoFirestore")
-const ProductDaoMemory = require("./products/ProductDaoMemory")*/
+const ProductDaoMemory = require("./products/ProductDaoMemory")
 const ProductDaoMongoDB = require("./products/ProductDaoMongoDB")
 
-/*const CartDaoFile = require("./cart/CartDaoFile)
-const CartDaoFirestore = require("./cart/CartDaoFirestore)
-const CartDaoMemory = require("./cart/CartDaoMemory)*/
+const CartDaoFile = require("./cart/CartDaoFile")
+const CartDaoFirestore = require("./cart/CartDaoFirestore")
+const CartDaoMemory = require("./cart/CartDaoMemory")
 const CartDaoMongoDB = require("./cart/CartDaoMongoDB")
 
 const daos = {}

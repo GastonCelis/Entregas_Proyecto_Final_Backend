@@ -8,18 +8,17 @@ class ContainerMongoDB{
     }
 
     async init() {
-        if (this.conection) {
-                this.conection = await mongoose.connect(config.mongodb.host, config.mongodb.options)
-            }
+        if (!this.conection) {
+            this.conection = await mongoose.connect(config.mongodb.host, config.mongodb.options)
         }
+    }
 
 
     async create(product) {
         try {
             const document = await this.collection.create(product)
             return document._id
-        } 
-        catch (error) {
+        } catch (error) {
             console.error(`¡Error!: ${error}`)
         }
     }
@@ -29,8 +28,7 @@ class ContainerMongoDB{
         try{
             const documents = await this.collection.find()
             return documents
-        } 
-        catch(error) {
+        } catch(error) {
             console.error(`¡Error!: ${error}`)
         }
     }
@@ -45,8 +43,7 @@ class ContainerMongoDB{
             } else {
                 return documents[0]
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error(`¡Error!: ${error}`)
         }
     }
@@ -65,9 +62,7 @@ class ContainerMongoDB{
             const elementUpdated = await this.getById(id);
     
             return elementUpdated;
-        }
-        
-        catch(error){
+        } catch(error){
             console.error(`¡Error!: ${error}`)
         }
     }
@@ -76,8 +71,7 @@ class ContainerMongoDB{
     async deleteAll(){
         try {
             await this.collection.deleteMany()
-        }
-        catch(error) {
+        } catch(error) {
             console.error(`¡Error!: ${error}`)
         }
     }
@@ -86,8 +80,7 @@ class ContainerMongoDB{
     async deleteById(id){
         try{
             await this.collection.deleteOne({ _id: id })
-        }
-        catch(error) {
+        } catch(error) {
             console.error(`¡Error!: ${error}`)
         }
     }
