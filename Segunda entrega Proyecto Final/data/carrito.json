@@ -1,0 +1,44 @@
+[
+  {
+    "producto": [
+      {
+        "nombre": "aa",
+        "descripcion": "vvv",
+        "codigo": 1,
+        "precio": 2,
+        "stock": 3,
+        "foto": "r",
+        "id": 1,
+        "timeStamp": 1635723514825
+      }
+    ],
+    "id": 1,
+    "timestamp": 1635723514827
+  },
+  {
+    "producto": [
+      {
+        "nombre": "moto",
+        "descripcion": "dddd",
+        "codigo": 2,
+        "precio": 3,
+        "stock": 4,
+        "foto": "y",
+        "id": 1,
+        "timestamp": 1635723518840
+      },
+      {
+        "nombre": "casa",
+        "descripcion": "dddd",
+        "codigo": 2,
+        "precio": 3,
+        "stock": 4,
+        "foto": "y",
+        "id": 2,
+        "timestamp": 1635776375301
+      }
+    ],
+    "id": 2,
+    "timestamp": 1635723515632
+  }
+]
