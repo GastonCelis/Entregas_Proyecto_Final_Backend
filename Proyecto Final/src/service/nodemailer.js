@@ -10,19 +10,4 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-/*const mailOptions = {
-    from: "Proyecto Final",
-    to: ["hellen.gleichner@ethereal.email"],
-    subject: "Nueva Compra Realizada",
-    html: "",
-}
-
-transporter.sendMail(mailOptions, (err, info) => {
-    if(err) {
-        console.log(err)
-        return err
-    }
-    console.log(info)
-})*/
-
 module.exports = transporter

@@ -23,13 +23,13 @@ routerProducts.get("/:id", async (req, res) =>{
     res.send({ product })
 })
 
-routerProducts.post("/", isAdmin, async (req, res) =>{
+routerProducts.post("/", async (req, res) =>{
     const newProduct = req.body
     const productSaved = await productDao.create(newProduct)
     res.send({ ID_New_Product: productSaved })
 })
 
-routerProducts.put("/:id", isAdmin, async (req, res) =>{
+routerProducts.put("/:id", async (req, res) =>{
     const idProduct = req.params.id
     const newProduct = req.body
     const updatedProduct = await productDao.update(idProduct, newProduct)
@@ -45,11 +45,11 @@ routerProducts.put("/:id", isAdmin, async (req, res) =>{
     }
 })
 
-routerProducts.delete("/", isAdmin, async (req, res) => {
+routerProducts.delete("/", async (req, res) => {
     await productDao.deleteAll()
 })
 
-routerProducts.delete("/:id", isAdmin, async (req, res) => {
+routerProducts.delete("/:id", async (req, res) => {
     const productId = req.params.id
     const productDelete = await productDao.deleteById(productId)
     console.log(productDelete)

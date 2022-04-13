@@ -71,7 +71,7 @@ formularioChat[0].addEventListener("submit", agregarMensaje)
 
 
 
-/*const agregarProducto = (event) =>{
+const agregarProducto = (event) =>{
     event.preventDefault()
 
     const producto = {
@@ -107,7 +107,7 @@ socket.on("productos", data =>{
 
     const listaProductosHtml = document.getElementsByClassName("productosTabla")
     listaProductosHtml[0].innerHTML = `${productosHtml}`
-})*/
+})
 
 const queryNombre = window.location.search
 const cantidadCaractares = queryNombre.length
